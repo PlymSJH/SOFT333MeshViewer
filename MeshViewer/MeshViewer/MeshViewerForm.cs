@@ -76,12 +76,9 @@ namespace MeshViewer
         {
             for (int i = 0; i < cube.Length; i++)
             {
-                cube[i] = cube[i].transform(scalingMatrix);
-                cube[i] = cube[i].transform(translationMatrix);
-                cube[i] = cube[i].transform(perspectiveMatrix);
-                //WVPMatrix = scalingMatrix * translationMatrix * perspectiveMatrix;
-                //cube[i] = cube[i].transform(WVPMatrix);
-                lblMatrixDisplay.Text = translationMatrix.ToString();
+                WVPMatrix = scalingMatrix * translationMatrix * perspectiveMatrix;
+                cube[i] = cube[i].transform(WVPMatrix);
+                lblMatrixDisplay.Text = WVPMatrix.ToString();
             }
         }
 
@@ -119,6 +116,16 @@ namespace MeshViewer
         private void vsbZ_Scroll(object sender, ScrollEventArgs e)
         {
             Invalidate();
+        }
+
+        private void openToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Text file|*.txt";
+            if(ofd.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(ofd.FileName);
+            }
         }
         
     }

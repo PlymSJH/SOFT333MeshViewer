@@ -8,8 +8,7 @@ namespace MeshViewer
 {
     class SMatrix
     {
-        public double[,] matrix = new double[4, 4];
-        public double[,] material;
+        public double[,] mat = new double[4, 4];
         public String matrixName = "Matrix";
         public int rows, cols;
         
@@ -17,7 +16,13 @@ namespace MeshViewer
         {
             rows = pRows;
             cols = pCols;
-            material = new double[rows, cols];
+            mat = new double[rows, cols];
+        }
+
+        public double this[int pRows, int pCols]      // Access this matrix as a 2D array
+        {
+            get { return mat[pRows, pCols]; }
+            set { mat[pRows, pCols] = value; }
         }
 
         public static SMatrix ZeroMatrix(int pRows, int pCols)
@@ -28,19 +33,21 @@ namespace MeshViewer
             {
                 for(int j = 0; j < pCols; j++)
                 {
-                    m.matrix[i, j] = 0;
+                    m[i, j] = 0;
                 }
             }
 
             return m;
         }
 
+
+
         public static SMatrix IdentityMatrix(int pRows, int pCols)
         {
             SMatrix m = ZeroMatrix(pRows, pCols);
             for (int i = 0; i < Math.Min(pRows, pCols); i++)
             {
-                m.matrix[i, i] = 1;
+                m[i, i] = 1;
             }
             return m;
         }
@@ -48,19 +55,20 @@ namespace MeshViewer
         public static SMatrix ScalingMatrix(double sx, double sy, double sz)
         {
             SMatrix m = IdentityMatrix(4, 4);
+            m.matrixName = "scale";
             for (int i = 0; i < Math.Min(4, 4); i++)
             {
                 if (i == 0)
-                    m.matrix[i, i] = sx;
+                    m[i, i] = sx;
 
                 else if (i == 1)
-                    m.matrix[i, i] = sy;
+                    m[i, i] = sy;
 
                 else if (i == 2)
-                    m.matrix[i, i] = sz;
+                    m[i, i] = sz;
 
                 else
-                    m.matrix[i, i] = 1;
+                    m[i, i] = 1;
             }
             return m;
         }
@@ -69,10 +77,10 @@ namespace MeshViewer
         {
             SMatrix m = ZeroMatrix(4, 4);
 
-            m.matrix[1, 1] = Math.Cos(rot);
-            m.matrix[1, 2] = Math.Sin(rot);
-            m.matrix[2, 1] = -(Math.Sin(rot));
-            m.matrix[2, 2] = Math.Cos(rot);
+            m[1, 1] = Math.Cos(rot);
+            m[1, 2] = Math.Sin(rot);
+            m[2, 1] = -(Math.Sin(rot));
+            m[2, 2] = Math.Cos(rot);
             return m;
         }
 
@@ -80,21 +88,20 @@ namespace MeshViewer
         {
             SMatrix m = ZeroMatrix(4, 4);
 
-            m.matrix[0, 2] = -1 * rot;
-            m.matrix[1, 1] = 1 * rot;
-            m.matrix[2, 0] = 1 * rot;
-            m.matrix[3, 3] = 1;
-
+            m[0, 2] = -1 * rot;
+            m[1, 1] = 1 * rot;
+            m[2, 0] = 1 * rot;
+            m[3, 3] = 1;
             return m;
         }
         public static SMatrix RotateAboutZ(double rot)
         {
             SMatrix m = ZeroMatrix(4, 4);
 
-            m.matrix[0, 1] = 1 * rot;
-            m.matrix[1, 0] = -1 * rot;
-            m.matrix[2, 2] = 1 * rot;
-            m.matrix[3, 3] = 1;
+            m[0, 1] = 1 * rot;
+            m[1, 0] = -1 * rot;
+            m[2, 2] = 1 * rot;
+            m[3, 3] = 1;
 
             return m;
         }
@@ -103,9 +110,9 @@ namespace MeshViewer
         {
             SMatrix m = ZeroMatrix(3, 3);
 
-            m.matrix[0, 1] = 1 * x;
-            m.matrix[1, 0] = -1 * y;
-            m.matrix[2, 2] = 1;
+            m[0, 1] = 1 * x;
+            m[1, 0] = -1 * y;
+            m[2, 2] = 1;
 
             return m;
         }
@@ -113,21 +120,21 @@ namespace MeshViewer
         public static SMatrix TranslationMatrix(int tx, int ty, int tz)
         {
             SMatrix m = IdentityMatrix(4, 4);
-            m.matrix[0, 0] = 1;         //Now all we need do is insert//
-            m.matrix[1, 1] = 1;         //the non-zeros.              //
-            m.matrix[2, 2] = 1;
-            m.matrix[3, 3] = 1;
-            m.matrix[0, 3] = tx; m.matrix[1, 3] = ty; m.matrix[2, 3] = tz;
+            m.matrixName = "translation";
+            m[0, 0] = 1;         //Now all we need do is insert//
+            m[1, 1] = 1;         //the non-zeros.              //
+            m[2, 2] = 1;
+            m[3, 3] = 1;
+            m[0, 3] = tx; m[1, 3] = ty; m[2, 3] = tz;
             return m;
         }
 
         public static SMatrix PerspectiveMatrix(double f)
         {
             SMatrix m = IdentityMatrix(4, 4);
-            m.matrix[3, 2] = 1 / f;
-            m.matrix[0, 0] = 1; m.matrix[1, 1] = 1; m.matrix[2, 2] = 1;
-            m.matrix[3, 3] = 0;
-
+            m.matrixName = "perspective";
+            m[3, 2] = 1 / f;
+            m[3, 3] = 0;
             return m;
         }
 
@@ -152,11 +159,11 @@ namespace MeshViewer
             w = w / aspectRatio;
             h = 2 * zNear / height;
 
-            m.matrix[0, 1] = w;
-            m.matrix[1, 1] = h;
-            m.matrix[2, 2] = q;
-            m.matrix[2, 3] = -1;
-            m.matrix[3, 2] = qn;
+            m[0, 1] = w;
+            m[1, 1] = h;
+            m[2, 2] = q;
+            m[2, 3] = -1;
+            m[3, 2] = qn;
 
             return m;
         }
@@ -175,7 +182,7 @@ namespace MeshViewer
                 for (int i = 0; i < R.rows; i++)
                     for (int j = 0; j < R.cols; j++)
                         for (int k = 0; k < A.cols; k++)
-                            R.matrix[j, i] += A.matrix[k, i] * B.matrix[j, k];
+                            R[j, i] += A[k, i] * B[j, k];
 
                 return R;
             }
@@ -193,7 +200,7 @@ namespace MeshViewer
                 for (int j = 0; j < cols; j++)
                 {
                     temp++;
-                    s += String.Format("{0,5:0.00}", matrix[i, j]) + " ";
+                    s += String.Format("{0,5:0.00}", mat[i, j]) + " ";
                     if (temp == rows)
                     {
                         s += "\r\n";

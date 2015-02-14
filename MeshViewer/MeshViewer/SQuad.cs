@@ -31,8 +31,8 @@ namespace MeshViewer
 
             for (int i = 0; i < 4; i++)
             {
-                transformedQuad.points[i] = points[i].transform(matrix);
-                transformedQuad.points[i] = transformedQuad.points[i].rescale();
+                transformedQuad.points[i] = points[i].Transform(matrix);
+                transformedQuad.points[i] = transformedQuad.points[i].Rescale();
             }
             return transformedQuad;
         }

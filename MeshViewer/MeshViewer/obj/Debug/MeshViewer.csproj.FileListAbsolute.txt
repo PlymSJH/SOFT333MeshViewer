@@ -7,3 +7,12 @@ C:\Users\Steven\Google Drive\Uni\Year 3\SOFT333 - Graphics\Assignment 1\MeshView
 C:\Users\Steven\Google Drive\Uni\Year 3\SOFT333 - Graphics\Assignment 1\MeshViewer\MeshViewer\obj\Debug\MeshViewer.csproj.GenerateResource.Cache
 C:\Users\Steven\Google Drive\Uni\Year 3\SOFT333 - Graphics\Assignment 1\MeshViewer\MeshViewer\obj\Debug\MeshViewer.exe
 C:\Users\Steven\Google Drive\Uni\Year 3\SOFT333 - Graphics\Assignment 1\MeshViewer\MeshViewer\obj\Debug\MeshViewer.pdb
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\bin\Debug\MeshViewer.exe.config
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.exe
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.pdb
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\bin\Debug\MeshViewer.exe
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\bin\Debug\MeshViewer.pdb
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.csprojResolveAssemblyReference.cache
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.MeshViewer.resources
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.Properties.Resources.resources
+C:\Users\Steven\Downloads\SOFT333MeshViewer-master\MeshViewer\MeshViewer\obj\Debug\MeshViewer.csproj.GenerateResource.Cache

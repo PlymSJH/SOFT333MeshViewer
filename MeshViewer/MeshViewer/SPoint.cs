@@ -33,24 +33,25 @@ namespace MeshViewer
         public double[] point = new double[4];
         public String pointName = "Point";
 
-        public SPoint transform(SMatrix matrix)
+        public SPoint Transform(SMatrix matrix)
         {
-            double total;
-            SPoint newPoint = new SPoint(pointName);
+           
+                double total;
+                SPoint newPoint = new SPoint(pointName);
 
-            for (int col = 0; col < 4; col++)
-            {
-                total = 0;
-                for (int row = 0; row < 4; row++)
-                    total = total + point[row] * matrix.matrix[col, row];
+                for (int col = 0; col < 4; col++)
+                {
+                    total = 0;
+                    for (int row = 0; row < 4; row++)
+                        total = total + point[row] * matrix[col, row];
 
-                newPoint.point[col] = total;
-            }
+                    newPoint.point[col] = total;
+                }
 
-            return newPoint;
+                return newPoint;   
         }
 
-        public SPoint rescale()
+        public SPoint Rescale()
         {
             SPoint newPoint = new SPoint(pointName);
             for (int i = 0; i < 4; i++)
