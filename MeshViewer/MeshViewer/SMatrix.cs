@@ -40,8 +40,6 @@ namespace MeshViewer
             return m;
         }
 
-
-
         public static SMatrix IdentityMatrix(int pRows, int pCols)
         {
             SMatrix m = ZeroMatrix(pRows, pCols);
@@ -116,13 +114,13 @@ namespace MeshViewer
 
             return m;
         }
-        //problem
+
         public static SMatrix TranslationMatrix(int tx, int ty, int tz)
         {
             SMatrix m = IdentityMatrix(4, 4);
             m.matrixName = "translation";
-            m[0, 0] = 1;         //Now all we need do is insert//
-            m[1, 1] = 1;         //the non-zeros.              //
+            m[0, 0] = 1;         
+            m[1, 1] = 1;         
             m[2, 2] = 1;
             m[3, 3] = 1;
             m[0, 3] = tx; m[1, 3] = ty; m[2, 3] = tz;

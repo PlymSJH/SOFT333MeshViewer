@@ -15,14 +15,13 @@ namespace MeshViewer
     {
         SMatrix scalingMatrix;
         SMatrix translationMatrix;
-        SMatrix rotationXMatrix, rotationYMatrix, rotationZMatrix;
+        SMatrix rotationMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix;
         SMatrix perspectiveMatrix;
         SMatrix WVPMatrix;
         SQuad[] cube = new SQuad[6], mesh;
         STriangle[] triangles;
-        bool loaded = false;
-        double rotSpeed = 1.01;
 
+        bool loaded = false;
         StreamReader sr;
 
         struct Vertex
@@ -42,14 +41,14 @@ namespace MeshViewer
             string s = "";
             //Create matrices
             SPoint p1 = new SPoint();
-            cube[0] = new SQuad(new SPoint(1,2,3), new SPoint(3,2,1), new SPoint(1,2,3), new SPoint(3,2,1));
+            cube[0] = new SQuad(new SPoint(3,3,3), new SPoint(3,2,1), new SPoint(1,2,3), new SPoint(3,2,1));
             scalingMatrix = SMatrix.ScalingMatrix(3, 3, 3);
             rotationXMatrix = SMatrix.RotateAboutX(20);
             translationMatrix = SMatrix.TranslationMatrix(1,100,1);
             perspectiveMatrix = SMatrix.PerspectiveMatrix(50);
             WVPMatrix = scalingMatrix * rotationXMatrix * translationMatrix * perspectiveMatrix;
 
-            cube[0] = cube[0].transform(WVPMatrix);
+            cube[0] = cube[0].transform(rotationXMatrix);
             
             //cube[0] = cube[0].transform(SMatrix.ScalingMatrix(3, 3, 3));
             //cube[0] = cube[0].transform(SMatrix.TranslationMatrix(10, 100, 1));
@@ -79,12 +78,14 @@ namespace MeshViewer
             SPoint p0, p1, p2, p3;
             
             perspectiveMatrix = SMatrix.PerspectiveMatrix(vsbFocalLength.Value);
-            translationMatrix = SMatrix.TranslationMatrix(vsbX.Value, 300, vsbZ.Value);
-            scalingMatrix = SMatrix.ScalingMatrix(100, 100, 100);
-            rotationXMatrix = SMatrix.RotateAboutX(5);
-   
-            rotationYMatrix = SMatrix.RotateAboutY(20);
-            rotationZMatrix = SMatrix.RotateAboutZ(20);
+            translationMatrix = SMatrix.TranslationMatrix(vsbXT.Value, vsbYT.Value, vsbZT.Value);
+            scalingMatrix = SMatrix.ScalingMatrix(vsbXS.Value, vsbYS.Value, vsbZS.Value);
+            //Rotations need to be converted from degrees to radians
+            rotationXMatrix = SMatrix.RotateAboutX(vsbXR.Value * (float)(Math.PI / 180));
+            rotationYMatrix = SMatrix.RotateAboutY(vsbYR.Value * (float)(Math.PI / 180));
+            rotationZMatrix = SMatrix.RotateAboutZ(vsbZR.Value * (float)(Math.PI / 180));
+
+            rotationMatrix = rotationXMatrix * rotationYMatrix * rotationZMatrix;
 
             p0 = new SPoint(0, 0, 0); p1 = new SPoint(0, 1, 0);   //Create front face//
             p2 = new SPoint(1, 1, 0); p3 = new SPoint(1, 0, 0);   //of my cube.....  //
@@ -117,7 +118,7 @@ namespace MeshViewer
             {
                 //WVPMatrix = scalingMatrix * translationMatrix * perspectiveMatrix;
                 //mesh[i] = mesh[i].transform(WVPMatrix);
-                WVPMatrix = scalingMatrix * rotationYMatrix * translationMatrix * perspectiveMatrix;
+                WVPMatrix = scalingMatrix * rotationMatrix * translationMatrix * perspectiveMatrix;
                 cube[i] = cube[i].transform(WVPMatrix);
                 lblMatrixDisplay.Text = WVPMatrix.ToString();
             }
@@ -141,8 +142,17 @@ namespace MeshViewer
         private void UpdateGUI()
         {
             lblFocalValue.Text = Convert.ToString(vsbFocalLength.Value);
-            lblXValue.Text = Convert.ToString(vsbX.Value);
-            lblZValue.Text = Convert.ToString(vsbZ.Value);
+            lblXValueT.Text = Convert.ToString(vsbXT.Value);
+            lblYValueT.Text = Convert.ToString(vsbYT.Value);
+            lblZValueT.Text = Convert.ToString(vsbZT.Value);
+
+            lblXValueR.Text = Convert.ToString(vsbXR.Value);
+            lblYValueR.Text = Convert.ToString(vsbYR.Value);
+            lblZValueR.Text = Convert.ToString(vsbZR.Value);
+
+            lblXValueS.Text = Convert.ToString(vsbXS.Value);
+            lblYValueS.Text = Convert.ToString(vsbYS.Value);
+            lblZValueS.Text = Convert.ToString(vsbZS.Value);
         }
 
         private void vsbFocalLength_Scroll(object sender, ScrollEventArgs e)
@@ -155,7 +165,42 @@ namespace MeshViewer
             Invalidate();
         }
 
+        private void vsbY_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
         private void vsbZ_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbXR_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbYR_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbZR_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbXS_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbYS_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+
+        private void vsbZS_Scroll(object sender, ScrollEventArgs e)
         {
             Invalidate();
         }
@@ -239,7 +284,7 @@ namespace MeshViewer
         private void gbPerspective_Enter(object sender, EventArgs e)
         {
 
-        }
+        }  
         
     }
 }
