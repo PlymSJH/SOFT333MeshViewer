@@ -24,31 +24,24 @@ namespace MeshViewer
             pointName = name;
         }
 
-        public SPoint(double x, double y, double z, String name)
-        {
-            point[0] = x; point[1] = y; point[2] = z; point[3] = 1;
-            pointName = name;
-        }
-
         public double[] point = new double[4];
         public String pointName = "Point";
 
         public SPoint Transform(SMatrix matrix)
-        {
-           
-                double total;
-                SPoint newPoint = new SPoint(pointName);
+        {    
+            double total;
+            SPoint newPoint = new SPoint(pointName);
 
-                for (int col = 0; col < 4; col++)
-                {
-                    total = 0;
-                    for (int row = 0; row < 4; row++)
-                        total = total + point[row] * matrix[col, row];
+            for (int col = 0; col < 4; col++)
+            {
+                total = 0;
+                for (int row = 0; row < 4; row++)
+                    total = total + point[row] * matrix[col, row];
 
-                    newPoint.point[col] = total;
-                }
+                newPoint.point[col] = total;
+            }
 
-                return newPoint;   
+            return newPoint;   
         }
 
         public SPoint Rescale()
@@ -62,11 +55,11 @@ namespace MeshViewer
 
         public override string ToString()
         {
- 	        String s = pointName + "\t";
+ 	        String s = pointName + ": ";
 
             for (int i = 0; i < 4; i++)
             {
-                s += Convert.ToString(point[i] + "\t");
+                s += Convert.ToString(point[i] + " ");
             }
 
             return s;

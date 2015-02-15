@@ -7,57 +7,34 @@ using System.Threading.Tasks;
 
 namespace MeshViewer
 {
-    class SQuad
+    class STriangle
     {
-        public SPoint[] points = new SPoint[4];
+        public SPoint[] points = new SPoint[3];
 
-        public String quadName = "Quad";
+        public String triangleName = "Triangle";
 
-        public SQuad()
+        public STriangle()
         {
             for (int i = 0; i < 4; i++) points[i] = new SPoint(0, 0, 0);
         }
 
-        public SQuad(SPoint v0, SPoint v1, SPoint v2, SPoint v3)
-        {
-            points[0] = v0;
-            points[1] = v1;
-            points[2] = v2;
-            points[3] = v3;
-        }
-
-        public SQuad(SPoint v0, SPoint v1, SPoint v2)
+        public STriangle(SPoint v0, SPoint v1, SPoint v2)
         {
             points[0] = v0;
             points[1] = v1;
             points[2] = v2;
         }
 
-        public SQuad(STriangle t0)
+        public STriangle transform(SMatrix matrix)
         {
-            points[0] = t0.points[0];
-            points[1] = t0.points[1];
-            points[2] = t0.points[2];
-            points[3] = new SPoint(0, 0, 0);
-        }
+            STriangle transformedTri = new STriangle();
 
-        public void InsertTriangle(STriangle t0)
-        {
-            points[0] = t0.points[0];
-            points[1] = t0.points[1];
-            points[2] = t0.points[2];
-        }
-
-        public SQuad transform(SMatrix matrix)
-        {
-            SQuad transformedQuad = new SQuad();
-
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
-                transformedQuad.points[i] = points[i].Transform(matrix);
-                transformedQuad.points[i] = transformedQuad.points[i].Rescale();
+                transformedTri.points[i] = points[i].Transform(matrix);
+                transformedTri.points[i] = transformedTri.points[i].Rescale();
             }
-            return transformedQuad;
+            return transformedTri;
         }
 
         public void draw(Graphics g)
@@ -84,11 +61,10 @@ namespace MeshViewer
 
             //Construct an array of .net points to draw.
 
-            Point[] netPoints = new Point[4];
+            Point[] netPoints = new Point[3];
             netPoints[0] = new Point((int)points[0].point[0], (int)points[0].point[1]);
             netPoints[1] = new Point((int)points[1].point[0], (int)points[1].point[1]);
             netPoints[2] = new Point((int)points[2].point[0], (int)points[2].point[1]);
-            netPoints[3] = new Point((int)points[3].point[0], (int)points[3].point[1]);
 
             g.FillPolygon(brush, netPoints);
         }

@@ -75,7 +75,7 @@ namespace MeshViewer
 
         public static SMatrix RotateAboutX(double rot)
         {
-            SMatrix m = ZeroMatrix(4, 4);
+            SMatrix m = IdentityMatrix(4, 4);
 
             m[1, 1] = Math.Cos(rot);
             m[1, 2] = Math.Sin(rot);
@@ -86,29 +86,29 @@ namespace MeshViewer
 
         public static SMatrix RotateAboutY(double rot)
         {
-            SMatrix m = ZeroMatrix(4, 4);
+            SMatrix m = IdentityMatrix(4, 4);
 
-            m[0, 2] = -1 * rot;
-            m[1, 1] = 1 * rot;
-            m[2, 0] = 1 * rot;
-            m[3, 3] = 1;
+            m[0, 0] = Math.Cos(rot);
+            m[0, 2] = -(Math.Sin(rot));
+            m[2, 0] = Math.Sin(rot);
+            m[2, 2] = Math.Cos(rot);
             return m;
         }
         public static SMatrix RotateAboutZ(double rot)
         {
-            SMatrix m = ZeroMatrix(4, 4);
+            SMatrix m = IdentityMatrix(4, 4);
 
-            m[0, 1] = 1 * rot;
-            m[1, 0] = -1 * rot;
-            m[2, 2] = 1 * rot;
-            m[3, 3] = 1;
+            m[0, 0] = Math.Cos(rot);
+            m[0, 1] = Math.Sin(rot);
+            m[1, 0] = -(Math.Sin(rot));
+            m[1, 1] = Math.Cos(rot);
 
             return m;
         }
 
         public static SMatrix RotateAboutOrigin(double x, double y)
         {
-            SMatrix m = ZeroMatrix(3, 3);
+            SMatrix m = IdentityMatrix(3, 3);
 
             m[0, 1] = 1 * x;
             m[1, 0] = -1 * y;
